@@ -16,8 +16,8 @@ _global_script_class_icons={
 [application]
 
 config/name="MonotoriProject"
-run/main_scene="res://Levels/TestLevel.tscn"
-config/icon="res://icon.png"
+run/main_scene="res://Instances/Levels/TestLevel.tscn"
+config/icon="res://2dAssets/icon.png"
 
 [input]
 
@@ -96,5 +96,5 @@ Lock={
 quality/driver/driver_name="GLES2"
 quality/driver/fallback_to_gles2=true
 quality/2d/use_pixel_snap=true
-environment/default_environment="res://new_environment.tres"
+environment/default_environment="res://Enviroments/new_environment.tres"
 quality/filters/anisotropic_filter_level=1
