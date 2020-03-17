@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://PlayerController.gd" type="Script" id=1]
 [ext_resource path="res://new_environment.tres" type="Environment" id=2]
@@ -6,10 +6,13 @@
 [ext_resource path="res://Instances/MonotoriTestBuneco.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Instances/TargetRange.gd" type="Script" id=5]
 [ext_resource path="res://Instances/CamBase.gd" type="Script" id=6]
+[ext_resource path="res://Levels/LilPyramid.material" type="Material" id=7]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.216257
 height = 0.63984
+
+[sub_resource type="CapsuleMesh" id=3]
 
 [sub_resource type="SphereShape" id=2]
 radius = 9.00009
@@ -31,8 +34,16 @@ environment = ExtResource( 2 )
 current = true
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
-transform = Transform( -4.32252e-08, 1.2361, -5.40315e-08, 0, -4.32252e-08, -0.988877, -0.988877, -5.40316e-08, 2.36179e-15, 0, 0.618151, -0.00297166 )
+transform = Transform( -4.32252e-08, 1.2361, -4.32252e-08, 0, -5.40316e-08, -0.988877, -0.988877, -5.40316e-08, 1.88943e-15, 0, 0.618151, -0.00297166 )
 shape = SubResource( 1 )
+
+[node name="CSGMesh" type="CSGMesh" parent="CollisionShape"]
+transform = Transform( 0.218999, 0.000829295, -4.90763e-11, -0.000525942, 0.220999, 5.95062e-14, 2.87372e-11, 5.95064e-14, 0.374, 0, 0, 0 )
+operation = 2
+snap = 0.0001
+calculate_tangents = false
+mesh = SubResource( 3 )
+material = ExtResource( 7 )
 
 [node name="Graphics" parent="." instance=ExtResource( 3 )]
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0 )

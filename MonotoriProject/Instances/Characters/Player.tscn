@@ -1,7 +1,7 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Scripts/PlayerController.gd" type="Script" id=1]
-[ext_resource path="res://Enviroments/ToonShaderTest.tres" type="Environment" id=2]
+[ext_resource path="res://Enviroments/new_environment.tres" type="Environment" id=2]
 [ext_resource path="res://3DAssets/Characters/polycat.dae" type="PackedScene" id=3]
 [ext_resource path="res://Instances/Characters/MonotoriTestBuneco.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scripts/TargetRange.gd" type="Script" id=5]
@@ -11,8 +11,15 @@
 radius = 0.216257
 height = 0.63984
 
-[sub_resource type="SphereShape" id=2]
+[sub_resource type="CubeMesh" id=2]
+
+[sub_resource type="SphereShape" id=3]
 radius = 9.00009
+
+[sub_resource type="ConcavePolygonShape" id=4]
+data = PoolVector3Array( -1, 1, 1, 1, 1, 1, -1, -1, 1, 1, 1, 1, 1, -1, 1, -1, -1, 1, 1, 1, -1, -1, 1, -1, 1, -1, -1, -1, 1, -1, -1, -1, -1, 1, -1, -1, 1, 1, 1, 1, 1, -1, 1, -1, 1, 1, 1, -1, 1, -1, -1, 1, -1, 1, -1, 1, -1, -1, 1, 1, -1, -1, -1, -1, 1, 1, -1, -1, 1, -1, -1, -1, 1, 1, 1, -1, 1, 1, 1, 1, -1, -1, 1, 1, -1, 1, -1, 1, 1, -1, -1, -1, 1, 1, -1, 1, -1, -1, -1, 1, -1, 1, 1, -1, -1, -1, -1, -1 )
+
+[sub_resource type="CubeMesh" id=5]
 
 [node name="Player" type="KinematicBody"]
 script = ExtResource( 1 )
@@ -31,7 +38,7 @@ environment = ExtResource( 2 )
 current = true
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
-transform = Transform( -4.32252e-08, 1.2361, -5.40315e-08, 0, -4.32252e-08, -0.988877, -0.988877, -5.40316e-08, 2.36179e-15, 0, 0.618151, -0.00297166 )
+transform = Transform( -4.32252e-08, 1.2361, -4.32252e-08, 0, -5.40316e-08, -0.988877, -0.988877, -5.40316e-08, 1.88943e-15, 0, 0.618151, -0.00297166 )
 shape = SubResource( 1 )
 
 [node name="Graphics" parent="." instance=ExtResource( 3 )]
@@ -40,6 +47,26 @@ visible = false
 
 [node name="MonotoriTestBuneco" parent="." instance=ExtResource( 4 )]
 transform = Transform( -0.1, 0, -8.74228e-09, 0, 0.1, 0, 8.74228e-09, 0, -0.1, 0, 0, 0 )
+
+[node name="Front_Ray" type="RayCast" parent="MonotoriTestBuneco"]
+transform = Transform( -0.87016, 0.0442785, -0.00254033, -0.0286617, 2.30109, 0.0196049, -0.0459849, 3.20623, -1.21674, -4.96669e-07, 10.2352, 5.68125 )
+enabled = true
+collide_with_areas = true
+
+[node name="Front_Cube" type="MeshInstance" parent="MonotoriTestBuneco/Front_Ray"]
+transform = Transform( -0.221137, 0.0208133, -0.000155298, -0.00276358, 0.405665, -0.0144393, 0.00107525, -0.0584748, -0.198484, -0.0203024, -0.399713, -0.0127687 )
+mesh = SubResource( 2 )
+material/0 = null
+
+[node name="Upper_Front_Ray" type="RayCast" parent="MonotoriTestBuneco"]
+transform = Transform( -1.3769, -0.21525, 0.0167362, 1.19274e-07, -0.418976, -1.36434, 0.178725, -9.29531, 0.722735, 1.49526e-08, 11.6951, -0.171038 )
+enabled = true
+collide_with_areas = true
+
+[node name="Front_Cube2" type="MeshInstance" parent="MonotoriTestBuneco/Upper_Front_Ray"]
+transform = Transform( -0.217935, 0.0690359, 0.000487776, -0.00409262, -0.44594, 0.00986758, 0.00125677, -0.0557893, 0.167042, 0.0807498, -0.513713, 0.0362616 )
+mesh = SubResource( 2 )
+material/0 = null
 
 [node name="StatePanel" type="Panel" parent="."]
 margin_right = 260.0
@@ -54,6 +81,9 @@ margin_right = 260.0
 margin_bottom = 15.4702
 text = "Current State:"
 align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="StateName" type="Label" parent="StatePanel"]
 margin_top = 20.0
@@ -69,8 +99,25 @@ script = ExtResource( 5 )
 
 [node name="Sphere" type="CollisionShape" parent="TargetRange"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.636935, 0 )
-shape = SubResource( 2 )
+shape = SubResource( 3 )
 
 [node name="CoyoteJump" type="Timer" parent="."]
 wait_time = 0.18
 one_shot = true
+
+[node name="Ground_Ray" type="RayCast" parent="."]
+transform = Transform( 1.05927, 0, 0, 0, 1.77843, 0, 0, 0, 1.05927, -0.000701666, 1.0764, -0.0256419 )
+enabled = true
+cast_to = Vector3( 0, -0.955, 0 )
+collide_with_areas = true
+
+[node name="CollisionShape2" type="CollisionShape" parent="."]
+transform = Transform( -0.269215, 1.33227e-15, -2.35356e-08, 0, 0.1, 0, 1.86216e-08, -5.29396e-23, -0.213007, -4.44089e-14, 1.18472, -0.617984 )
+shape = SubResource( 4 )
+
+[node name="MeshInstance" type="MeshInstance" parent="."]
+transform = Transform( -0.269215, 1.33227e-15, -2.35356e-08, 0, 0.1, 0, 1.86216e-08, -5.29396e-23, -0.213007, -4.44089e-14, 1.18472, -0.617984 )
+mesh = SubResource( 5 )
+material/0 = null
+
+[node name="StaticBody" type="StaticBody" parent="MeshInstance"]
